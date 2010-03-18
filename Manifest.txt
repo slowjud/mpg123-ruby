@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/mpg123_ruby
+lib/mpg123_ruby.rb
+test/test_mpg123_ruby.rb
