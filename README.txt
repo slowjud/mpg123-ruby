@@ -1,14 +1,14 @@
 = mpg123_ruby
 
-* FIX (url)
+http://github.com/slowjud/mpg123-ruby
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de/index.shtml for more details on mpg123.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+* There are no features and everything is a bug.
 
 == SYNOPSIS:
 
@@ -16,11 +16,11 @@ FIX (describe your package)
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+Mpg123_ruby depends on mpg123 1.10 or higher. You can get the latest mpg123 from http://www.mpg123.de/index.shtml
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+  $ [sudo] gem install mpg123_ruby
 
 == DEVELOPERS:
 
