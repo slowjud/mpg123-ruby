@@ -6,6 +6,9 @@ http://github.com/slowjud/mpg123-ruby
 
 Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de for more details on mpg123.
 
+* Source code {hosted at GitHub}[http://github.com/slowjud/mpg123-ruby]
+* Please {report any issues}[http://github.com/slowjud/mpg123-ruby/issues] on GitHub
+
 == FEATURES/PROBLEMS:
 
 * There are no features and everything is a bug.
