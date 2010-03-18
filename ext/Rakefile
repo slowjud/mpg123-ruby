@@ -1,0 +1,21 @@
+
+require 'rake/clean'
+
+
+CLEAN.include '*.o', 'Makefile', 'mkmf.log'
+CLOBBER.include 'mpg123_api.so', 'mpg123_api.bundle'
+
+task :default => ['mpg123_api.bundle']
+task :swig    => ['mpg123_api_wrap.c']
+
+file 'mpg123_api.bundle' => ['mpg123_api_wrap.c', 'Makefile'] do
+  sh "make"
+end
+
+file 'mpg123_api_wrap.c' => ['mpg123_api.i'] do
+  sh "swig -ruby -feature mpg123_api mpg123_api.i"
+end
+
+file 'Makefile' do
+  ruby "extconf.rb"
+end
