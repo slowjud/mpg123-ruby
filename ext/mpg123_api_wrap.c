@@ -1853,6 +1853,22 @@ SWIG_From_unsigned_SS_char  (unsigned char value)
   return SWIG_From_unsigned_SS_long  (value);
 }
 
+
+    mpg123_id3v1 *GetID3v1(mpg123_handle *mh)
+    {
+        mpg123_id3v1 *v1;
+        mpg123_id3(mh, &v1, NULL);
+        return v1;
+    }
+
+
+    mpg123_id3v2 *GetID3v2(mpg123_handle *mh)
+    {
+        mpg123_id3v2 *v2;
+        mpg123_id3(mh, NULL, &v2);
+        return v2;
+    }
+
 SWIGINTERN VALUE
 _wrap_mpg123_init(int argc, VALUE *argv, VALUE self) {
   int result;
@@ -6969,6 +6985,54 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_GetID3v1(int argc, VALUE *argv, VALUE self) {
+  mpg123_handle *arg1 = (mpg123_handle *) 0 ;
+  mpg123_id3v1 *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_mpg123_handle_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GetID3v1" "', argument " "1"" of type '" "mpg123_handle *""'"); 
+  }
+  arg1 = (mpg123_handle *)(argp1);
+  result = (mpg123_id3v1 *)GetID3v1(arg1);
+  vresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mpg123_id3v1, 0 |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_GetID3v2(int argc, VALUE *argv, VALUE self) {
+  mpg123_handle *arg1 = (mpg123_handle *) 0 ;
+  mpg123_id3v2 *result = 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_mpg123_handle_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "GetID3v2" "', argument " "1"" of type '" "mpg123_handle *""'"); 
+  }
+  arg1 = (mpg123_handle *)(argp1);
+  result = (mpg123_id3v2 *)GetID3v2(arg1);
+  vresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_mpg123_id3v2, 0 |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -7664,5 +7728,7 @@ SWIGEXPORT void Init_mpg123_api(void) {
   rb_define_module_function(mAPI, "mpg123_replace_buffer", _wrap_mpg123_replace_buffer, -1);
   rb_define_module_function(mAPI, "mpg123_outblock", _wrap_mpg123_outblock, -1);
   rb_define_module_function(mAPI, "mpg123_replace_reader", _wrap_mpg123_replace_reader, -1);
+  rb_define_module_function(mAPI, "GetID3v1", _wrap_GetID3v1, -1);
+  rb_define_module_function(mAPI, "GetID3v2", _wrap_GetID3v2, -1);
 }
 
