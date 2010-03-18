@@ -4,7 +4,7 @@ http://github.com/slowjud/mpg123-ruby
 
 == DESCRIPTION:
 
-Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de/ for more details on mpg123.
+Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de for more details on mpg123.
 
 == FEATURES/PROBLEMS:
 
@@ -16,7 +16,7 @@ Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de/ for more 
 
 == REQUIREMENTS:
 
-Mpg123_ruby depends on mpg123 1.10 or higher. You can get the latest mpg123 from http://www.mpg123.de/
+Mpg123_ruby depends on mpg123 1.10 or higher. You can get the latest mpg123 from http://www.mpg123.de
 
 == INSTALL:
 
