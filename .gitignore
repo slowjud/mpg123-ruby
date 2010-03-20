@@ -2,4 +2,5 @@ ext/Makefile
 ext/mkmf.log
 ext/mpg123_api.bundle
 ext/mpg123_api_wrap.o
+pkg/**
 .DS_Store

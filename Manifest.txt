@@ -1,8 +1,9 @@
 .autotest
 History.txt
 Manifest.txt
-README.txt
+README.rdoc
 Rakefile
-bin/mpg123_ruby
 lib/mpg123_ruby.rb
-test/test_mpg123_ruby.rb
+ext/mpg123_api.bundle
+spec/mpg123_ruby_spec.rb
+spec/spec_helper.rb

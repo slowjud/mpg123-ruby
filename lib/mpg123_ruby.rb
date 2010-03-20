@@ -1,4 +1,4 @@
-require 'mpg123_api'
+require '../ext/mpg123_api'
 
 module MPG123
   VERSION = '0.0.1'
