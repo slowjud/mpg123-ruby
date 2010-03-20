@@ -1,10 +1,10 @@
-= WARNING
-
-This project is not even alpha. Its far from complete.
-
 = mpg123_ruby
 
 http://github.com/slowjud/mpg123-ruby
+
+== WARNING
+
+This project is not even alpha. Its far from complete.
 
 == DESCRIPTION:
 
