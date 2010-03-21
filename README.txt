@@ -19,7 +19,8 @@ Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de for more d
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+* Create an initialiser.
+  MPG123::API.mpg123_init
 
 == REQUIREMENTS:
 

@@ -4,14 +4,8 @@ module MPG123
   VERSION = '0.0.1'
   
   class Tag
-    @@klass_initialized = false
 
     def initialize(filename)
-      unless @@klass_initialized
-        MPG123::API.mpg123_init
-        @@klass_initialized = true
-      end
-      
       mpg123_handle = MPG123::API.mpg123_new(nil, nil)
       MPG123::API.mpg123_open mpg123_handle, filename
       MPG123::API.mpg123_scan mpg123_handle
