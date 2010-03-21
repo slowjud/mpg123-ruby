@@ -7,20 +7,20 @@ module MPG123
     @@klass_initialized = false
 
     def initialize(filename)
-      @filename = filename
       unless @@klass_initialized
         MPG123::API.mpg123_init
         @@klass_initialized = true
       end
       
-      @mpg123_handle = MPG123::API.mpg123_new(nil, nil)
-      MPG123::API.mpg123_open @mpg123_handle, @filename
-      MPG123::API.mpg123_scan @mpg123_handle
+      mpg123_handle = MPG123::API.mpg123_new(nil, nil)
+      MPG123::API.mpg123_open mpg123_handle, filename
+      MPG123::API.mpg123_scan mpg123_handle
 
-      if MPG123::API.mpg123_meta_check(@mpg123_handle) & 0x3
-        @v2 = MPG123::API.get_id3_v2 @mpg123_handle
-        @v1 = MPG123::API.get_id3_v1 @mpg123_handle
+      if MPG123::API.mpg123_meta_check(mpg123_handle) & 0x3
+        @v2 = MPG123::API.get_id3_v2 mpg123_handle
+        @v1 = MPG123::API.get_id3_v1 mpg123_handle
       end
+      MPG123::API.mpg123_close mpg123_handle
     end
     
     
