@@ -16,6 +16,7 @@ Mpeg123_ruby is a wrapper around libmpeg123. See http://www.mpg123.de for more d
 == FEATURES/PROBLEMS:
 
 * There are no features and everything is a bug.
+* TODO: wrap error codes in exceptions and design a functional interface
 
 == SYNOPSIS:
 

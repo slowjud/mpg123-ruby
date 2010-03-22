@@ -3,7 +3,7 @@ require 'rake/clean'
 
 
 CLEAN.include '*.o', 'Makefile', 'mkmf.log'
-CLOBBER.include 'mpg123_api.so', 'mpg123_api.bundle'
+CLOBBER.include 'mpg123_api.so', 'mpg123_api.bundle', 'mpg123_api_wrap.c'
 
 task :default => ['mpg123_api.bundle']
 task :swig    => ['mpg123_api_wrap.c']

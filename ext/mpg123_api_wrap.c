@@ -1869,6 +1869,44 @@ SWIG_From_unsigned_SS_char  (unsigned char value)
         return v2;
     }
 
+
+    VALUE getformat(mpg123_handle *mh)
+    {
+        long r = 0;
+        int  c = 0;
+        int  e = 0;
+        VALUE hash = rb_hash_new();
+        mpg123_getformat( mh, &r, &c, &e );
+        rb_hash_aset( hash, rb_str_new2("rate"), LONG2NUM(r) );
+        rb_hash_aset( hash, rb_str_new2("channels"), INT2NUM(c) );
+        rb_hash_aset( hash, rb_str_new2("encoding"), INT2NUM(e) );
+        
+        return hash;
+    }
+
+
+    VALUE read_frame(mpg123_handle *mh)
+    {
+        int i;
+        size_t done = 0;
+        size_t buffer_size = mpg123_outblock( mh );
+        unsigned char *buffer = malloc( buffer_size );
+        VALUE array = rb_ary_new();
+        
+        mpg123_read( mh, buffer, buffer_size, &done );
+        
+				for (i = 0; i < done/sizeof(char); i++){
+						rb_ary_push( array, INT2FIX( buffer[i] ) );
+				}
+
+        free ( buffer );
+        
+        if( done > 0 )
+            return array;
+        else
+            return Qnil;
+    }
+
 SWIGINTERN VALUE
 _wrap_mpg123_init(int argc, VALUE *argv, VALUE self) {
   int result;
@@ -7033,6 +7071,54 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_getformat(int argc, VALUE *argv, VALUE self) {
+  mpg123_handle *arg1 = (mpg123_handle *) 0 ;
+  VALUE result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_mpg123_handle_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getformat" "', argument " "1"" of type '" "mpg123_handle *""'"); 
+  }
+  arg1 = (mpg123_handle *)(argp1);
+  result = (VALUE)getformat(arg1);
+  vresult = result;
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_read_frame(int argc, VALUE *argv, VALUE self) {
+  mpg123_handle *arg1 = (mpg123_handle *) 0 ;
+  VALUE result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_mpg123_handle_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "read_frame" "', argument " "1"" of type '" "mpg123_handle *""'"); 
+  }
+  arg1 = (mpg123_handle *)(argp1);
+  result = (VALUE)read_frame(arg1);
+  vresult = result;
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -7730,5 +7816,7 @@ SWIGEXPORT void Init_mpg123_api(void) {
   rb_define_module_function(mAPI, "mpg123_replace_reader", _wrap_mpg123_replace_reader, -1);
   rb_define_module_function(mAPI, "get_id3_v1", _wrap_get_id3_v1, -1);
   rb_define_module_function(mAPI, "get_id3_v2", _wrap_get_id3_v2, -1);
+  rb_define_module_function(mAPI, "getformat", _wrap_getformat, -1);
+  rb_define_module_function(mAPI, "read_frame", _wrap_read_frame, -1);
 }
 
