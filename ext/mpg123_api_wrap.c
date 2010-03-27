@@ -1887,24 +1887,57 @@ SWIG_From_unsigned_SS_char  (unsigned char value)
 
     VALUE read_frame(mpg123_handle *mh)
     {
+        // Make sure we deal with the correct ecoding
+		// Currently we're only dealling with signed 16bit
         int i;
+		int val;
         size_t done = 0;
-        size_t buffer_size = mpg123_outblock( mh );
-        unsigned char *buffer = malloc( buffer_size );
+        unsigned char *buffer;
         VALUE array = rb_ary_new();
         
-        mpg123_read( mh, buffer, buffer_size, &done );
+        mpg123_framebyframe_next( mh );
+        mpg123_framebyframe_decode( mh, NULL, &buffer, &done );
         
-				for (i = 0; i < done/sizeof(char); i++){
-						rb_ary_push( array, INT2FIX( buffer[i] ) );
-				}
+        for (i = 0; i < done/sizeof(char); i+=2){
+            val = buffer[i] << 8 | buffer[i+1];
+            if ( val & 0x8000 ) {
+                val ^= 0xffffff8000;
+            }
+            rb_ary_push( array, INT2FIX( val ) );
+        }
 
-        free ( buffer );
-        
         if( done > 0 )
             return array;
         else
             return Qnil;
+    }
+
+
+    VALUE bmp1(mpg123_handle *mh)
+    {
+        int sample_rate = 0;
+        size_t done = 0;
+        unsigned char *buffer;
+        int song_length = 0;
+        
+        // get the sample rate
+        // rewind to the start of the song.
+        // read a frame
+        do {
+            mpg123_framebyframe_next( mh );
+            mpg123_framebyframe_decode( mh, NULL, &buffer, &done );
+        } while( done );
+        
+        // start calculating the instant energies
+        // start calculating the average energies
+        
+        // we need to hold the last second of instant energies.
+        
+        // start calculating the variance
+        // calculate the beats
+        // devide the number of beats by the song length
+        song_length = mpg123_length(mh) / sample_rate;
+        return INT2FIX(1);
     }
 
 SWIGINTERN VALUE
@@ -7119,6 +7152,30 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_bmp1(int argc, VALUE *argv, VALUE self) {
+  mpg123_handle *arg1 = (mpg123_handle *) 0 ;
+  VALUE result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_mpg123_handle_struct, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "bmp1" "', argument " "1"" of type '" "mpg123_handle *""'"); 
+  }
+  arg1 = (mpg123_handle *)(argp1);
+  result = (VALUE)bmp1(arg1);
+  vresult = result;
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -7818,5 +7875,6 @@ SWIGEXPORT void Init_mpg123_api(void) {
   rb_define_module_function(mAPI, "get_id3_v2", _wrap_get_id3_v2, -1);
   rb_define_module_function(mAPI, "getformat", _wrap_getformat, -1);
   rb_define_module_function(mAPI, "read_frame", _wrap_read_frame, -1);
+  rb_define_module_function(mAPI, "bmp1", _wrap_bmp1, -1);
 }
 

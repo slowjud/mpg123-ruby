@@ -42,21 +42,25 @@
 %inline %{
     VALUE read_frame(mpg123_handle *mh)
     {
-	      // Make sure we deal with the correct bitrate
+        // Make sure we deal with the correct ecoding
+		// Currently we're only dealling with signed 16bit
         int i;
+		int val;
         size_t done = 0;
-        size_t buffer_size = mpg123_outblock( mh );
-        unsigned char *buffer = malloc( buffer_size );
+        unsigned char *buffer;
         VALUE array = rb_ary_new();
         
-        mpg123_read( mh, buffer, buffer_size, &done );
+        mpg123_framebyframe_next( mh );
+        mpg123_framebyframe_decode( mh, NULL, &buffer, &done );
         
-				for (i = 0; i < done/sizeof(char); i++){
-						rb_ary_push( array, INT2FIX( buffer[i] ) );
-				}
+        for (i = 0; i < done/sizeof(char); i+=2){
+            val = buffer[i] << 8 | buffer[i+1];
+            if ( val & 0x8000 ) {
+                val ^= 0xffffff8000;
+            }
+            rb_ary_push( array, INT2FIX( val ) );
+        }
 
-        free ( buffer );
-        
         if( done > 0 )
             return array;
         else
@@ -65,3 +69,31 @@
 %}
 
 
+%inline %{
+    VALUE bmp1(mpg123_handle *mh)
+    {
+        int sample_rate = 0;
+        size_t done = 0;
+        unsigned char *buffer;
+        int song_length = 0;
+        
+        // get the sample rate
+        // rewind to the start of the song.
+        // read a frame
+        do {
+            mpg123_framebyframe_next( mh );
+            mpg123_framebyframe_decode( mh, NULL, &buffer, &done );
+        } while( done );
+        
+        // start calculating the instant energies
+        // start calculating the average energies
+        
+        // we need to hold the last second of instant energies.
+        
+        // start calculating the variance
+        // calculate the beats
+        // devide the number of beats by the song length
+        song_length = mpg123_length(mh) / sample_rate;
+        return INT2FIX(1);
+    }
+%}
